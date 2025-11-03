@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "vitepress": "^2.0.0-alpha.12"
+  },
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "dependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@git-diff-view/file": "^0.0.35",
+    "@git-diff-view/vue": "^0.0.35"
+  }
+}
