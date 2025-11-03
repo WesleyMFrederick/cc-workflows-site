@@ -1,11 +1,22 @@
 {
+  "name": "cc-workflows-site",
+  "version": "1.0.0",
+  "type": "module",
   "devDependencies": {
     "vitepress": "^2.0.0-alpha.12"
   },
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "citation:validate": "citation-manager validate",
+    "citation:ast": "citation-manager ast",
+    "citation:base-paths": "sh -c 'citation-manager extract links \"$1\" 2>/dev/null | jq -r \".outgoingLinksReport.processedLinks[] | select(.sourceLink.target.path.absolute) | .sourceLink.target.path.absolute\" | sort -u' --",
+    "citation:extract": "citation-manager extract links",
+    "citation:extract:content": "sh -c 'citation-manager extract links \"$1\" | jq \".extractedContentBlocks\"' --",
+    "citation:extract:header": "sh -c 'citation-manager extract header \"$1\" \"$2\"' --",
+    "citation:extract:links": "citation-manager extract links",
+    "citation:fix": "citation-manager validate --fix"
   },
   "dependencies": {
     "@biomejs/biome": "^1.9.4",

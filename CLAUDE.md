@@ -17,6 +17,16 @@ npm run docs:build
 
 # Preview production build locally
 npm run docs:preview
+
+# Citation Manager: validate and extract wiki-link content
+citation-manager validate <file>              # Check citations resolve
+citation-manager validate <file> --fix       # Auto-fix anchors
+citation-manager extract links <file>         # Extract all linked content
+citation-manager extract header <file> <name> # Extract specific header
+citation-manager extract file <file>          # Extract entire file
+citation-manager ast <file>                   # Show AST for debugging
+
+# Add -h to any command for detailed help
 ```
 
 ## Architecture
