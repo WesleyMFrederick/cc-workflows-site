@@ -1,1 +1,17 @@
 /* Custom styles for the site */
+
+/* Expand layout for wide displays */
+:root {
+  --vp-layout-max-width: 1920px;
+}
+
+/* Increase content width when aside is disabled */
+@media (min-width: 1440px) {
+  .VPDoc:not(.has-aside) .content-container {
+    max-width: 1400px;
+  }
+
+  .VPDoc:not(.has-aside) .container {
+    max-width: 1600px;
+  }
+}
