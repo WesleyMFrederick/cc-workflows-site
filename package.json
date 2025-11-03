@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "type": "module",
   "devDependencies": {
-    "vitepress": "^2.0.0-alpha.12"
+    "@vitejs/plugin-vue": "^6.0.1",
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^20.0.10",
+    "vitepress": "^2.0.0-alpha.12",
+    "vitest": "^4.0.6"
   },
   "scripts": {
+    "test": "vitest",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
