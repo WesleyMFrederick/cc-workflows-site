@@ -2,6 +2,9 @@
 .vitepress/cache
 .vitepress/dist
 
+# Temporary skip files
+*.skip
+
 # Node.js dependencies
 node_modules/
 
