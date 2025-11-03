@@ -1,0 +1,91 @@
+{
+	"permissions": {
+		"allow": [
+			"Bash(rm:*)",
+			"Bash(node:*)",
+			"Bash(git checkout:*)",
+			"Bash(mkdir:*)",
+			"Bash(git mv:*)",
+			"Bash(git rm:*)",
+			"Bash(rmdir:*)",
+			"Bash(ls:*)",
+			"Bash(mv:*)",
+			"Bash(source:*)",
+			"Bash(git add:*)",
+			"Bash(git commit:*)",
+			"Bash(git merge:*)",
+			"Bash(git branch:*)",
+			"Bash(find:*)",
+			"Bash(git worktree:*)",
+			"Bash(git push:*)",
+			"mcp__perplexity-mcp__search",
+			"mcp__playwright__browser_navigate",
+			"Bash(curl:*)",
+			"Bash(grep:*)",
+			"Bash(git cplsm:*)",
+			"Bash(diff:*)",
+			"WebFetch(domain:docs.anthropic.com)",
+			"WebFetch(domain:www.linkedin.com)",
+			"Bash(sed:*)",
+			"Bash(sed:*)",
+			"Bash(sed:*)",
+			"Bash(node:*)",
+			"Bash(npm install:*)",
+			"mcp__deepwiki__read_wiki_structure",
+			"mcp__deepwiki__read_wiki_contents",
+			"mcp__deepwiki__ask_question",
+			"Read(//Users/wesleyfrederick/.claude/scripts/**)",
+			"mcp__Context7__resolve-library-id",
+			"mcp__Context7__get-library-docs",
+			"Bash(npx markdownlint:*)",
+			"Bash(npm run mirror-workflows:*)"
+		],
+		"deny": [
+		],
+		"ask": [],
+		"additionalDirectories": [
+			"/Users/wesleyfrederick/Documents/ObsidianVaultNew/0_SoftwareDevelopment/cc-workflows/design-docs",
+			"/Users/wesleyfrederick/.claude/scripts/calculate-risk",
+			"/Users/wesleyfrederick/Documents/ObsidianVaultNew/Technical KnowledgeBase"
+		]
+	},
+	"enableAllProjectMcpServers": false,
+	"enabledMcpjsonServers": [
+		"Context7"
+	],
+	"hooks": {
+		"PostToolUse": [
+			{
+				"matcher": "Write|Edit|MultiEdit",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "/Users/wesleyfrederick/.claude/scripts/smart-lint/smart-lint.sh"
+					}
+				]
+			}
+		],
+		"Stop": [
+			{
+				"matcher": "",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "echo \\\"Do you have more todos in your todo list? If so, continue the tasks in your todo list \\\""
+					}
+				]
+			}
+		],
+		"SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh"
+          }
+        ]
+      }
+    ]
+	}
+}
