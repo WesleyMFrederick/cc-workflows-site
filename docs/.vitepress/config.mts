@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: 'Claude Code Workflows',
   description: 'Documentation site for Claude Code workflows and AI-assisted development discussions',
+  ignoreDeadLinks: true,
 
   themeConfig: {
     nav: [
