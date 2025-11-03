@@ -3,13 +3,13 @@
     <div v-if="loadError" class="error-message">
       <strong>Error loading diff:</strong> {{ loadError }}
     </div>
-    <DiffView v-else-if="diffFile" :data="diffFile" />
+    <DiffView v-else-if="diffFile" :diffFile="diffFile" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { DiffView } from '@git-diff-view/vue';
-import { generateDiffFile, type DiffFile } from '@git-diff-view/file';
+import { generateDiffFile, DiffFile } from '@git-diff-view/file';
 import { onMounted, ref } from 'vue';
 import '@git-diff-view/vue/styles/diff-view.css';
 import { data as promptDiffs } from '../PromptDiffs.data';
