@@ -18,6 +18,12 @@ export default defineConfig({
         ]
       },
       {
+        text: 'POC Tests',
+        items: [
+          { text: 'POC-1: Layout Override', link: '/poc-layout-test' }
+        ]
+      },
+      {
         text: 'Research',
         collapsed: true,
         items: [
