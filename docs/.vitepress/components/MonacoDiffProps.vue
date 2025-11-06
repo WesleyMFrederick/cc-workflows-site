@@ -54,15 +54,15 @@ onMounted(async () => {
     renderOverviewRuler: true    // Show minimap overview
   })
 
-  // Create models with hardcoded content for POC validation
+  // Create initial models from props (CHANGED: use prop.value)
   const originalModel = monaco.editor.createModel(
-    `const x = 1;\nconst y = 2;\nconst z = 3;`,
-    'javascript'
+    oldContent.value,
+    language.value
   )
 
   const modifiedModel = monaco.editor.createModel(
-    `const x = 10;\nconst y = 2;\nconst z = 30;`,
-    'javascript'
+    newContent.value,
+    language.value
   )
 
   // Set models to diff editor
