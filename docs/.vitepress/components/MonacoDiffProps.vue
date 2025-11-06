@@ -100,6 +100,23 @@ watch(newContent, (newValue) => {
   }
 })
 
+// Watch language prop - update both models
+watch(language, (newLang) => {
+  if (!diffEditor) return
+
+  const originalModel = diffEditor.getOriginalEditor().getModel()
+  const modifiedModel = diffEditor.getModifiedEditor().getModel()
+
+  console.log('[MonacoDiffProps] language updated:', newLang)
+
+  if (originalModel) {
+    monaco.editor.setModelLanguage(originalModel, newLang)
+  }
+  if (modifiedModel) {
+    monaco.editor.setModelLanguage(modifiedModel, newLang)
+  }
+})
+
 onBeforeUnmount(() => {
   diffEditor?.dispose()
 })
