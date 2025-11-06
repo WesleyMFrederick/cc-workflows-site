@@ -72,6 +72,20 @@ onMounted(async () => {
   })
 })
 
+// Watch oldContent prop - update original (left) model
+watch(oldContent, (newValue) => {
+  if (!diffEditor) return
+
+  const originalEditor = diffEditor.getOriginalEditor()
+  const model = originalEditor.getModel()
+
+  // Performance guard: only update if content changed
+  if (model && model.getValue() !== newValue) {
+    console.log('[MonacoDiffProps] oldContent updated:', newValue.substring(0, 50))
+    model.setValue(newValue)
+  }
+})
+
 onBeforeUnmount(() => {
   diffEditor?.dispose()
 })
