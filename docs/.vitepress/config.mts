@@ -23,9 +23,22 @@ export default defineConfig({
       {
         text: 'Monaco Editor POCs',
         items: [
-          { text: 'POC: Monaco Basic', link: '/poc-monaco-basic' },
-          { text: 'POC: Monaco Diff', link: '/poc-monaco-diff' },
-          { text: 'POC: Monaco Diff Results', link: '/poc-monaco-diff-results' }
+          {
+            text: 'POC-1: Build & Render',
+            collapsed: false,
+            items: [
+              { text: 'Test Page', link: '/poc-monaco-diff' },
+              { text: 'Results', link: '/poc-monaco-diff-results' }
+            ]
+          },
+          {
+            text: 'POC-2.1: Props-Based Content',
+            collapsed: false,
+            items: [
+              { text: 'Test Page', link: '/poc-monaco-diff-props' },
+              { text: 'Results', link: '/poc-monaco-diff-props-results' }
+            ]
+          }
         ]
       }
     ],

@@ -1,0 +1,127 @@
+<script setup lang="ts">
+import { ref, toRefs, watch, onMounted, onBeforeUnmount } from 'vue'
+import * as monaco from 'monaco-editor'
+
+// Worker imports (preserve from POC-1)
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
+import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
+import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
+import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+
+interface Props {
+  oldContent: string      // Original/left pane content
+  newContent: string      // Modified/right pane content
+  language?: string       // Syntax highlighting language
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  language: 'javascript'
+})
+
+// Convert props to refs for reactivity
+const { oldContent, newContent, language } = toRefs(props)
+
+const diffContainer = ref<HTMLElement | null>(null)
+let diffEditor: monaco.editor.IStandaloneDiffEditor | null = null
+
+onMounted(async () => {
+  // Configure Monaco Environment for Vite native workers (2025 best practice)
+  self.MonacoEnvironment = {
+    getWorker(_: any, label: string) {
+      if (label === 'json') {
+        return new jsonWorker()
+      }
+      if (label === 'css' || label === 'scss' || label === 'less') {
+        return new cssWorker()
+      }
+      if (label === 'html' || label === 'handlebars' || label === 'razor') {
+        return new htmlWorker()
+      }
+      if (label === 'typescript' || label === 'javascript') {
+        return new tsWorker()
+      }
+      return new editorWorker()
+    }
+  }
+
+  // Create diff editor with read-only configuration (NFR-3.1)
+  diffEditor = monaco.editor.createDiffEditor(diffContainer.value, {
+    readOnly: true,              // Prevents all editing
+    originalEditable: false,     // Locks original (left) editor
+    renderSideBySide: true,      // Side-by-side view (FR-1.1)
+    enableSplitViewResizing: true, // Allow pane width adjustment
+    renderOverviewRuler: true    // Show minimap overview
+  })
+
+  // Create initial models from props (CHANGED: use prop.value)
+  const originalModel = monaco.editor.createModel(
+    oldContent.value,
+    language.value
+  )
+
+  const modifiedModel = monaco.editor.createModel(
+    newContent.value,
+    language.value
+  )
+
+  // Set models to diff editor
+  diffEditor.setModel({
+    original: originalModel,
+    modified: modifiedModel
+  })
+})
+
+// Watch oldContent prop - update original (left) model
+watch(oldContent, (newValue) => {
+  if (!diffEditor) return
+
+  const originalEditor = diffEditor.getOriginalEditor()
+  const model = originalEditor.getModel()
+
+  // Performance guard: only update if content changed
+  if (model && model.getValue() !== newValue) {
+    console.log('[MonacoDiffProps] oldContent updated:', newValue.substring(0, 50))
+    model.setValue(newValue)
+  }
+})
+
+// Watch newContent prop - update modified (right) model
+watch(newContent, (newValue) => {
+  if (!diffEditor) return
+
+  const modifiedEditor = diffEditor.getModifiedEditor()
+  const model = modifiedEditor.getModel()
+
+  // Performance guard: only update if content changed
+  if (model && model.getValue() !== newValue) {
+    console.log('[MonacoDiffProps] newContent updated:', newValue.substring(0, 50))
+    model.setValue(newValue)
+  }
+})
+
+// Watch language prop - update both models
+watch(language, (newLang) => {
+  if (!diffEditor) return
+
+  const originalModel = diffEditor.getOriginalEditor().getModel()
+  const modifiedModel = diffEditor.getModifiedEditor().getModel()
+
+  console.log('[MonacoDiffProps] language updated:', newLang)
+
+  if (originalModel) {
+    monaco.editor.setModelLanguage(originalModel, newLang)
+  }
+  if (modifiedModel) {
+    monaco.editor.setModelLanguage(modifiedModel, newLang)
+  }
+})
+
+onBeforeUnmount(() => {
+  diffEditor?.dispose()
+})
+</script>
+
+<template>
+  <div ref="diffContainer" class="monaco-diff-container" style="height: 600px; width: 100%; border: 1px solid #ccc;"></div>
+</template>
