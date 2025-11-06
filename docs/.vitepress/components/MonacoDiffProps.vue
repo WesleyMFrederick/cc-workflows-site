@@ -86,6 +86,20 @@ watch(oldContent, (newValue) => {
   }
 })
 
+// Watch newContent prop - update modified (right) model
+watch(newContent, (newValue) => {
+  if (!diffEditor) return
+
+  const modifiedEditor = diffEditor.getModifiedEditor()
+  const model = modifiedEditor.getModel()
+
+  // Performance guard: only update if content changed
+  if (model && model.getValue() !== newValue) {
+    console.log('[MonacoDiffProps] newContent updated:', newValue.substring(0, 50))
+    model.setValue(newValue)
+  }
+})
+
 onBeforeUnmount(() => {
   diffEditor?.dispose()
 })
