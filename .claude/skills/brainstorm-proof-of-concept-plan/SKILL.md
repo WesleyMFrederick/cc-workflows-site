@@ -151,18 +151,31 @@ Document high-level:
 
 ### 6. Write POC Design Document
 
-**Location:** `docs/plans/YYYY-MM-DD-poc-N-description-design.md`
+**Location:** Same folder as whiteboard/requirements documents
+
+**Naming pattern:** Append `-poc{{N}}-{{short-slug}}` to the base filename
+- Example: If requirements file is `diff-view-monaco-requirements.md`
+- POC-1 becomes: `diff-view-monaco-poc1-validate-diff-view-builds.md`
+- POC-2 becomes: `diff-view-monaco-poc2-props-and-theme.md`
 
 **Required sections:**
 - **Problem** (what risks we're validating)
-- **Approach** (why this approach)
+- **Approach** (why this approach) - **MUST cite requirements, research, or external sources**
 - **Complete POC Strategy** (ALL planned POCs with brief descriptions)
-- **Architecture** (detailed for POC-N being built)
+- **Architecture** (detailed for POC-N being built) - **MUST cite requirements for each design decision**
 - **Success Metrics** (how we'll measure)
 - **Implementation Details** (enough to build POC-N)
 - **Risk Mitigation** (what if it fails)
-- **Out of Scope** (what we're NOT validating)
-- **References** (link to research/ files)
+- **Out of Scope** (what we're NOT validating) - **MUST link to requirement IDs**
+- **References** (link to research/ files and external sources)
+
+**Citation Requirements:**
+Every design decision MUST be backed by:
+- Requirements document links: `[FR-2.1](./requirements-file.md#^FR2-1)`
+- Research document links: `[Research](./research/topic-research.md)`
+- External sources: `[Source](https://url)` with full URL
+
+**Format:** Use markdown links with anchors for requirement references. Use relative paths `./` for same-folder files.
 
 **Example "Complete POC Strategy" section:**
 
@@ -209,9 +222,12 @@ Document high-level:
 | "Just document POC-1, others are future work" | Document complete strategy. Detailed design for POC-1 only. |
 | "Parallel research is overkill" | Parallel = 4x speed with focused briefs. Always use for 3+ areas. |
 | "User already specified risks" | User lists known risks. AskUserQuestion surfaces hidden ones. |
-| "Documentation structure doesn't matter" | research/ vs docs/plans/ separation enables reuse. Always follow. |
+| "Documentation structure doesn't matter" | Same-folder location enables discovery. Always follow naming pattern. |
 | "Writing skill slows me down" | Concise docs save implementation time. Required for all reports. |
 | "POC planning is too formal" | POC without plan = random prototyping. Structure prevents waste. |
+| "Citations are obvious from context" | Future readers need explicit links. Always cite requirements/research/sources. |
+| "I'll add citations later" | Design decisions without citations = unverifiable claims. Add during writing. |
+| "General approach doesn't need citations" | Every design choice needs backing. Cite requirements or research for all decisions. |
 
 ## Success Criteria
 

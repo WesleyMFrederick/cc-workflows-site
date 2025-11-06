@@ -29,6 +29,8 @@
   "dependencies": {
     "@biomejs/biome": "^1.9.4",
     "@git-diff-view/file": "^0.0.35",
-    "@git-diff-view/vue": "^0.0.35"
+    "@git-diff-view/vue": "^0.0.35",
+    "monaco-editor": "^0.54.0",
+    "vite-plugin-monaco-editor": "^1.1.0"
   }
 }

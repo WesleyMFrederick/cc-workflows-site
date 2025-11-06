@@ -5,6 +5,14 @@ export default defineConfig({
   description: 'Documentation site for Claude Code workflows and AI-assisted development discussions',
   ignoreDeadLinks: true,
 
+  vite: {
+    ssr: {
+      noExternal: ['monaco-editor']  // Required for Monaco in VitePress SSR
+    },
+    // Using Vite native worker support via ?worker imports in components
+    // This is the 2025 recommended approach for VitePress + Monaco Editor
+  },
+
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
@@ -13,22 +21,11 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Claude Code Workflows',
+        text: 'Monaco Editor POCs',
         items: [
-          { text: 'Claude Code Output Style (Deprecated)', link: '/Claude Code Output Style Depricated' }
-        ]
-      },
-      {
-        text: 'POC Tests',
-        items: [
-          { text: 'POC-1: Layout Override', link: '/poc-layout-test' }
-        ]
-      },
-      {
-        text: 'Research',
-        collapsed: true,
-        items: [
-          { text: 'Claude Code Output Style Research', link: '/research/Claude Code Output Style Depricated' }
+          { text: 'POC: Monaco Basic', link: '/poc-monaco-basic' },
+          { text: 'POC: Monaco Diff', link: '/poc-monaco-diff' },
+          { text: 'POC: Monaco Diff Results', link: '/poc-monaco-diff-results' }
         ]
       }
     ],

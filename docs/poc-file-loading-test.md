@@ -1,5 +1,5 @@
 ---
-aside: false
+aside: right
 ---
 
 # POC-2: File-Based Diff Loading Test

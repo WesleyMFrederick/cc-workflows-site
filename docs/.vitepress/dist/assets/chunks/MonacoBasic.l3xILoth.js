@@ -1,0 +1,3 @@
+import{W as t,a as s,b as a,c,d as i,e as p}from"./ts.worker.DeDD3R5n.js";import{d as u,x as d,p as f,Z as m,c as W,o as k}from"./framework.wHMELYSa.js";const w=u({__name:"MonacoBasic",setup(_){const e=d();let n=null;return f(()=>{self.MonacoEnvironment={getWorker(o,r){return r==="json"?new t:r==="css"||r==="scss"||r==="less"?new s:r==="html"||r==="handlebars"||r==="razor"?new a:r==="typescript"||r==="javascript"?new c:new i}},e.value&&(n=p.create(e.value,{value:`const x = 1;
+const y = 2;
+const z = 3;`,language:"javascript",theme:"vs-dark",readOnly:!0}))}),m(()=>{n?.dispose()}),(o,r)=>(k(),W("div",{ref_key:"editorContainer",ref:e,class:"monaco-basic-container",style:{height:"400px",width:"100%",border:"1px solid #ccc"}},null,512))}});export{w as default};
