@@ -10,31 +10,25 @@
 
 ### Story Arc
 
-<mark class="user-highlight" data-user-name="Wesley" data-created="2025-11-06 13:22">For each act, create an assets that will track what we need to create for that act. for example, the tehcnocal deep dive will have: diff view of system prompt vs system prompt with output-style, code blocks pointing to anthropic api for messages, system, and tools. Act 2 can have visuals (an xy graph showing ease vs value)</mark>
+**Asset tracking will be integrated into each act section below, not as a separate file.**
 
-<!-- group-id:response-202511061340 -->
-**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:40:00" data-modified="2025-11-06T13:40:00" data-id="mark-1730923200-001" data-group-id="response-202511061340">Asset tracking will be integrated into each act section below, not as a separate file.</mark>**
+**Assets needed by act:**
 
-**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:40:05" data-modified="2025-11-06T13:40:05" data-id="mark-1730923205-002" data-group-id="response-202511061340">Assets needed by act:</mark>**
-
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:40:10" data-modified="2025-11-06T13:40:10" data-id="mark-1730923210-003" data-group-id="response-202511061340">Act 1 (Drama)</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:40:15" data-modified="2025-11-06T13:40:15" data-id="mark-1730923215-004" data-group-id="response-202511061340"> - Timeline visualization (simple markdown table)</mark>
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:40:20" data-modified="2025-11-06T13:40:20" data-id="mark-1730923220-005" data-group-id="response-202511061340">Act 2 (Framework)</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:40:25" data-modified="2025-11-06T13:40:25" data-id="mark-1730923225-006" data-group-id="response-202511061340"> - XY graph: Ease of Use vs. Value Added (4-quadrant Gourville matrix)</mark>
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:40:30" data-modified="2025-11-06T13:40:30" data-id="mark-1730923230-007" data-group-id="response-202511061340">Act 3 (Analysis)</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:40:35" data-modified="2025-11-06T13:40:35" data-id="mark-1730923235-008" data-group-id="response-202511061340"> - None (purely narrative)</mark>
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:40:40" data-modified="2025-11-06T13:40:40" data-id="mark-1730923240-009" data-group-id="response-202511061340">Appendix (Technical Deep-Dive)</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:40:45" data-modified="2025-11-06T13:40:45" data-id="mark-1730923245-010" data-group-id="response-202511061340"> - Diff view (system prompt baseline vs. with /output-style), Code blocks (Anthropic API references for messages/system/tools), Priority hierarchy visualization</mark>
-<!-- /group-id:response-202511061340 -->
+• **Act 1 (Drama)** - Timeline visualization (simple markdown table)
+• **Act 2 (Framework)** - XY graph: Ease of Use vs. Value Added (4-quadrant Gourville matrix)
+• **Act 3 (Analysis)** - None (purely narrative)
+• **Appendix (Technical Deep-Dive)** - Diff view (system prompt baseline vs. with /output-style), Code blocks (Anthropic API references for messages/system/tools), Priority hierarchy visualization
 
 **Act 1: Drama** ([[#I. Opening Hook The Reversal (200 words)|Opening Hook]])
-- The 3-day reversal that ==shocked== everyone <mark class="user-highlight" data-user-name="Wesley" data-created="2025-11-06 13:21">Shocked is not the right word.</mark>
+- The 3-day reversal that ==shocked== everyone
 
-<!-- group-id:response-202511061345 -->
-**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:45:00" data-modified="2025-11-06T13:45:00" data-id="mark-1730923500-011" data-group-id="response-202511061345">Better alternatives for the reversal:</mark>**
+Better alternatives for the reversal:
 
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:45:05" data-modified="2025-11-06T13:45:05" data-id="mark-1730923505-012" data-group-id="response-202511061345">"surprised the community"</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:45:10" data-modified="2025-11-06T13:45:10" data-id="mark-1730923510-013" data-group-id="response-202511061345"> - neutral, factual</mark>
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:45:15" data-modified="2025-11-06T13:45:15" data-id="mark-1730923515-014" data-group-id="response-202511061345">"galvanized power users"</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:45:20" data-modified="2025-11-06T13:45:20" data-id="mark-1730923520-015" data-group-id="response-202511061345"> - shows action/mobilization without overstating</mark>
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:45:25" data-modified="2025-11-06T13:45:25" data-id="mark-1730923525-016" data-group-id="response-202511061345">"caught the community's attention"</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:45:30" data-modified="2025-11-06T13:45:30" data-id="mark-1730923530-017" data-group-id="response-202511061345"> - focuses on significance without emotional charge</mark>
+• **"surprised the community"** - neutral, factual
+• **"galvanized power users"** - shows action/mobilization without overstating
+• **"caught the community's attention"** - focuses on significance without emotional charge
 
-**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:45:35" data-modified="2025-11-06T13:45:35" data-id="mark-1730923535-018" data-group-id="response-202511061345">Recommendation: "The 3-day reversal that galvanized power users"</mark>**
-<!-- /group-id:response-202511061345 -->
+Recommendation: "The 3-day reversal that galvanized power users"
 
 - Compelling user quotes showing real impact
 - Setup the mystery: Why did <1% usage trigger complete reversal?
@@ -295,28 +289,14 @@ When users say "it's not the same," investigate before assuming resistance to ch
 
 ---
 
-## PART 2: THE TECHNICAL DEEP-DIVE (600-800 words)
+## PART 2: THE TECHNICAL DEEP-DIVE (1000-1500 words)
 
-<mark class="user-highlight" data-user-name="Wesley" data-created="2025-11-06 12:33">This technical deep dive will be more than six to eight hundred words because it's gonna have a diff viewer of how the different system prompts work. It's gonna have c Codeode. referencing and their opex API. </mark>
+Agreed - updated word count to 1000-1500 words to accommodate:
 
-<!-- group-id:response-202511061355 -->
-**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:55:00" data-modified="2025-11-06T13:55:00" data-id="mark-1730924100-026" data-group-id="response-202511061355">Agreed - updated word count to 1000-1500 words to accommodate:</mark>**
-
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:55:05" data-modified="2025-11-06T13:55:05" data-id="mark-1730924105-027" data-group-id="response-202511061355">Diff viewer component</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:55:10" data-modified="2025-11-06T13:55:10" data-id="mark-1730924110-028" data-group-id="response-202511061355"> showing system prompt baseline vs. with /output-style applied</mark>
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:55:15" data-modified="2025-11-06T13:55:15" data-id="mark-1730924115-029" data-group-id="response-202511061355">Code blocks</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:55:20" data-modified="2025-11-06T13:55:20" data-id="mark-1730924120-030" data-group-id="response-202511061355"> with file:line references to Claude Code source</mark>
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:55:25" data-modified="2025-11-06T13:55:25" data-id="mark-1730924125-031" data-group-id="response-202511061355">API payload examples</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:55:30" data-modified="2025-11-06T13:55:30" data-id="mark-1730924130-032" data-group-id="response-202511061355"> using Anthropic/OpenAI-compatible format (messages, system, tools structure)</mark>
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:55:35" data-modified="2025-11-06T13:55:35" data-id="mark-1730924135-033" data-group-id="response-202511061355">Priority hierarchy visualization</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:55:40" data-modified="2025-11-06T13:55:40" data-id="mark-1730924140-034" data-group-id="response-202511061355"> (table or diagram)</mark>
-<!-- /group-id:response-202511061355 -->
-
-<!-- group-id:response-202511061241 -->
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-030" data-group-id="response-202511061241">Revised word count: 1000-1500 words for technical deep-dive</mark>
-
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-031" data-group-id="response-202511061241">**Will include:**</mark>
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-032" data-group-id="response-202511061241">- Interactive diff viewer showing system prompt with vs without /output-style</mark>
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-033" data-group-id="response-202511061241">- Code examples from Claude Code source (file:line references)</mark>
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-034" data-group-id="response-202511061241">- API payload examples (OpenAI-compatible API format)</mark>
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-035" data-group-id="response-202511061241">- Priority hierarchy visualization</mark>
-<!-- /group-id:response-202511061241 -->
+• **Diff viewer component** showing system prompt baseline vs. with /output-style applied
+• **Code blocks** with file:line references to Claude Code source
+• **API payload examples** using Anthropic/OpenAI-compatible format (messages, system, tools structure)
+• **Priority hierarchy visualization** (table or diagram)
 
 ### IV. Purpose Statement (50 words)
 
@@ -379,38 +359,31 @@ This wasn't user paranoia - this was accurate technical assessment.
 
 ### VI. Why Users Felt the Difference (200-250 words)
 
-<mark class="user-highlight" data-user-name="Wesley" data-created="2025-11-06 12:33">I think the technical deep dive should come at the end of the article and be linked to from the body of the article. So this six here, why users felt the difference.. I'm just curious if it should be part </mark>
+Section VI "Why Users Felt the Difference" should be SPLIT:
 
-<!-- group-id:response-202511061350 -->
-**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:50:00" data-modified="2025-11-06T13:50:00" data-id="mark-1730923800-019" data-group-id="response-202511061350">Section VI "Why Users Felt the Difference" should be SPLIT:</mark>**
+• **Brief validation (2-3 sentences per complaint)** → stays in Part 1, Act 3 (main narrative)
+• **Detailed technical proof (diffs, code, API examples)** → moves to Appendix
 
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:50:05" data-modified="2025-11-06T13:50:05" data-id="mark-1730923805-020" data-group-id="response-202511061350">Brief validation (2-3 sentences per complaint)</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:50:10" data-modified="2025-11-06T13:50:10" data-id="mark-1730923810-021" data-group-id="response-202511061350"> → stays in Part 1, Act 3 (main narrative)</mark>
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:50:15" data-modified="2025-11-06T13:50:15" data-id="mark-1730923815-022" data-group-id="response-202511061350">Detailed technical proof (diffs, code, API examples)</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:50:20" data-modified="2025-11-06T13:50:20" data-id="mark-1730923820-023" data-group-id="response-202511061350"> → moves to Appendix</mark>
+Example for main body (Act 3):
 
-**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:50:25" data-modified="2025-11-06T13:50:25" data-id="mark-1730923825-024" data-group-id="response-202511061350">Example for main body (Act 3):</mark>**
-
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T13:50:30" data-modified="2025-11-06T13:50:30" data-id="mark-1730923830-025" data-group-id="response-202511061350">```markdown
+```markdown
 Users complained that "adherence won't be as good" with SessionStart hooks. They were right: system prompt instructions (priority level 1) carry more weight than system-reminder tags (priority level 3), with ~15-20K tokens of tool descriptions creating semantic distance. _[See Appendix A for detailed technical analysis]_
+```
 
-```</mark>
-<!-- /group-id:response-202511061350 -->
+Structural Recommendation: Move Technical Deep-Dive to Appendix
 
-<!-- group-id:response-202511061242 -->
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-040" data-group-id="response-202511061242">Structural Recommendation: Move Technical Deep-Dive to Appendix</mark>
+New structure:
+- Part 1: Product case study with Eager Sellers framework (900-1200 words)
+- Part 2: Lessons & Conclusion (300-400 words)
+- Appendix: Technical Deep-Dive (1000-1500 words) - linked from body
 
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-041" data-group-id="response-202511061242">New structure:</mark>
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-042" data-group-id="response-202511061242">- Part 1: Product case study with Eager Sellers framework (900-1200 words)</mark>
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-043" data-group-id="response-202511061242">- Part 2: Lessons & Conclusion (300-400 words)</mark>
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-044" data-group-id="response-202511061242">- Appendix: Technical Deep-Dive (1000-1500 words) - linked from body</mark>
+Benefits:
+- Keeps main narrative focused on product story
+- Technical readers can dive deep via link
+- Product managers can skip technical details
+- Still validates user complaints in main text, just references appendix for proof
 
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-045" data-group-id="response-202511061242">Benefits:</mark>
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-046" data-group-id="response-202511061242">- Keeps main narrative focused on product story</mark>
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-047" data-group-id="response-202511061242">- Technical readers can dive deep via link</mark>
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-048" data-group-id="response-202511061242">- Product managers can skip technical details</mark>
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-049" data-group-id="response-202511061242">- Still validates user complaints in main text, just references appendix for proof</mark>
-
-<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T12:37:54" data-modified="2025-11-06T12:37:54" data-id="mark-1730919474-050" data-group-id="response-202511061242">Main body would include: Brief technical validation (2-3 sentences per complaint) with "See Appendix A for detailed technical analysis" links</mark>
-<!-- /group-id:response-202511061242 -->
+Main body would include: Brief technical validation (2-3 sentences per complaint) with "See Appendix A for detailed technical analysis" links
 
 #### Complaint #1: "Adherence won't be as good"
 
@@ -464,13 +437,9 @@ This wasn't about preference - this was about **lost functionality**.
 
 ### VII. The Technical Verdict (150-200 words)
 
-<mark class="user-highlight" data-user-name="Wesley" data-created="2025-11-06 12:33">I think the technical deep dive should come at the end of the article and be linked to from the body of the article. So this six here, why users felt the difference.. I'm just curious if it should be part </mark>
+Section VII "The Technical Verdict" will also be moved to the Appendix.
 
-<!-- group-id:response-202511061400 -->
-**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T14:00:00" data-modified="2025-11-06T14:00:00" data-id="mark-1730924400-035" data-group-id="response-202511061400">Section VII "The Technical Verdict" will also be moved to the Appendix.</mark>**
-
-**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T14:00:05" data-modified="2025-11-06T14:00:05" data-id="mark-1730924405-036" data-group-id="response-202511061400">The main body (Act 3) will include a brief summary conclusion that references the Appendix for full technical proof.</mark>**
-<!-- /group-id:response-202511061400 -->
+The main body (Act 3) will include a brief summary conclusion that references the Appendix for full technical proof.
 
 **What Anthropic said:**
 "They're the same thing - just use plugins/hooks/CLI flags. Functionally equivalent."
@@ -506,13 +475,9 @@ When power users say "it's not the same," and they can articulate technical reas
 
 ## PART 3: LESSONS & CONCLUSION (200-300 words)
 
-<mark class="user-highlight" data-user-name="Wesley" data-created="2025-11-06 12:33">I think the technical deep dive should come at the end of the article and be linked to from the body of the article. So this six here, why users felt the difference.. I'm just curious if it should be part </mark>
+Part 3 remains in the main body - these are the product lessons and conclusion that readers need regardless of technical depth.
 
-<!-- group-id:response-202511061405 -->
-**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T14:05:00" data-modified="2025-11-06T14:05:00" data-id="mark-1730924700-037" data-group-id="response-202511061405">Part 3 remains in the main body - these are the product lessons and conclusion that readers need regardless of technical depth.</mark>**
-
-**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T14:05:05" data-modified="2025-11-06T14:05:05" data-id="mark-1730924705-038" data-group-id="response-202511061405">No changes needed here.</mark>**
-<!-- /group-id:response-202511061405 -->
+No changes needed here.
 
 ### VIII. Product Lessons (150 words)
 
@@ -552,13 +517,9 @@ Breaking workflows creates losses that far exceed theoretical functional parity.
 
 ### IX. The Win-Win Outcome (100-150 words)
 
-<mark class="user-highlight" data-user-name="Wesley" data-created="2025-11-06 12:33">I think the technical deep dive should come at the end of the article and be linked to from the body of the article. So this six here, why users felt the difference.. I'm just curious if it should be part </mark>
+This section (IX) also remains in Part 3 of the main body.
 
-<!-- group-id:response-202511061410 -->
-**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T14:10:00" data-modified="2025-11-06T14:10:00" data-id="mark-1730925000-039" data-group-id="response-202511061410">This section (IX) also remains in Part 3 of the main body.</mark>**
-
-**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T14:10:05" data-modified="2025-11-06T14:10:05" data-id="mark-1730925005-040" data-group-id="response-202511061410">No technical details here - purely narrative about the outcome.</mark>**
-<!-- /group-id:response-202511061410 -->
+No technical details here - purely narrative about the outcome.
 
 **Anthropic's reversal showed organizational maturity:**
 - Shipped fast, learned from feedback (not stubborn or defensive)
@@ -580,17 +541,13 @@ Anthropic turned a potential community-fracturing disaster into a case study in 
 
 ### X. Final Thought (50 words)
 
-<mark class="user-highlight" data-user-name="Wesley" data-created="2025-11-06 12:33">I think the technical deep dive should come at the end of the article and be linked to from the body of the article. So this six here, why users felt the difference.. I'm just curious if it should be part </mark>
+This section (X Final Thought) also remains in Part 3 - it's the narrative conclusion to the entire piece.
 
-<!-- group-id:response-202511061415 -->
-**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T14:15:00" data-modified="2025-11-06T14:15:00" data-id="mark-1730925300-041" data-group-id="response-202511061415">This section (X Final Thought) also remains in Part 3 - it's the narrative conclusion to the entire piece.</mark>**
+Summary of structural changes based on your comment:
 
-**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T14:15:05" data-modified="2025-11-06T14:15:05" data-id="mark-1730925305-042" data-group-id="response-202511061415">Summary of structural changes based on your comment:</mark>**
-
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T14:15:10" data-modified="2025-11-06T14:15:10" data-id="mark-1730925310-043" data-group-id="response-202511061415">Part 1 (900-1200 words)</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T14:15:15" data-modified="2025-11-06T14:15:15" data-id="mark-1730925315-044" data-group-id="response-202511061415"> - Product case study with framework analysis + brief technical validation with Appendix links</mark>
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T14:15:20" data-modified="2025-11-06T14:15:20" data-id="mark-1730925320-045" data-group-id="response-202511061415">Part 2 (300-400 words)</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T14:15:25" data-modified="2025-11-06T14:15:25" data-id="mark-1730925325-046" data-group-id="response-202511061415"> - Product lessons and conclusion</mark>
-• **<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T14:15:30" data-modified="2025-11-06T14:15:30" data-id="mark-1730925330-047" data-group-id="response-202511061415">Appendix (1000-1500 words)</mark>**<mark class="model-highlight" data-model="claude-sonnet-4-20250514" data-created="2025-11-06T14:15:35" data-modified="2025-11-06T14:15:35" data-id="mark-1730925335-048" data-group-id="response-202511061415"> - Full technical deep-dive with diffs, code examples, API references, and detailed proof</mark>
-<!-- /group-id:response-202511061415 -->
+• **Part 1 (900-1200 words)** - Product case study with framework analysis + brief technical validation with Appendix links
+• **Part 2 (300-400 words)** - Product lessons and conclusion
+• **Appendix (1000-1500 words)** - Full technical deep-dive with diffs, code examples, API references, and detailed proof
 
 Great products succeed not by forcing users to adapt to better architectures, but by understanding that "better" is measured in user workflows, not engineering elegance.
 
