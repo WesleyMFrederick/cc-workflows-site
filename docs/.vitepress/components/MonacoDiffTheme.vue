@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { useData } from 'vitepress'
 import * as monaco from 'monaco-editor'
 
 // Vite native worker imports - bundles workers properly for production
@@ -11,6 +12,14 @@ import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 
 const diffContainer = ref(null)
 let diffEditor = null
+
+// VitePress theme detection
+const { isDark } = useData()
+
+// Map to Monaco theme names
+const monacoTheme = computed(() => {
+  return isDark.value ? 'vs-dark' : 'vs'
+})
 
 onMounted(async () => {
   // Configure Monaco Environment for Vite native workers (2025 best practice)
