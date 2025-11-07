@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue'
 import { useData } from 'vitepress'
 import * as monaco from 'monaco-editor'
 
@@ -67,6 +67,13 @@ onMounted(async () => {
     original: originalModel,
     modified: modifiedModel
   })
+})
+
+// Watch VitePress theme changes (NEW in POC-2.2)
+watch(monacoTheme, (newTheme) => {
+  if (!diffEditor) return
+  console.log('[MonacoDiffTheme] Theme updated:', newTheme)
+  monaco.editor.setTheme(newTheme)
 })
 
 onBeforeUnmount(() => {
