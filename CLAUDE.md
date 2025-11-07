@@ -18,7 +18,7 @@ npm run docs:build
 # Preview production build locally
 npm run docs:preview
 
-# Citation Manager: validate and extract wiki-link content
+# Citation Manager: validate and extract markdown linkci content
 citation-manager validate <file>              # Check citations resolve
 citation-manager validate <file> --fix       # Auto-fix anchors
 citation-manager extract links <file>         # Extract all linked content

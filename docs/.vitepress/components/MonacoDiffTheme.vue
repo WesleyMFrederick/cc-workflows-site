@@ -48,7 +48,8 @@ onMounted(async () => {
     renderSideBySide: true,      // Side-by-side view (FR-1.1)
     enableSplitViewResizing: true, // Allow pane width adjustment
     renderOverviewRuler: true,   // Show minimap overview
-    theme: monacoTheme.value     // Set initial theme from VitePress
+    theme: monacoTheme.value,     // Set initial theme from VitePress
+    contextmenu: false // Disables right-click context menu
   })
 
   // Create models with hardcoded content for POC validation

@@ -38,6 +38,14 @@ export default defineConfig({
               { text: 'Test Page', link: '/poc-monaco-diff-props' },
               { text: 'Results', link: '/poc-monaco-diff-props-results' }
             ]
+          },
+          {
+            text: 'POC-2.2: Theme Synchronization',
+            collapsed: false,
+            items: [
+              { text: 'Test Page', link: '/poc-monaco-diff-theme' },
+              { text: 'Results', link: '/poc-monaco-diff-theme-results' }
+            ]
           }
         ]
       }

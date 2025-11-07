@@ -21,17 +21,23 @@ hero:
       link: /three-legged-stool-tools-people-process.md
 
 features:
-  - title: "POC-1: Layout Override Test"
-    details: 🧪 Tests VitePress layout customization for two-column diff display with 600px minimum pane widths
-    link: /poc-layout-test
+  - title: "POC-1: Monaco Diff Build & Render"
+    details: 🧪 Validates Monaco Editor integration with VitePress - side-by-side diff rendering in SSR environment
+    link: /poc-monaco-diff
   - title: "POC-1: Validation Results"
-    details: ✅ Automated Playwright test results - 1400px content width achieved, layout override successful
-    link: /poc-layout-test-results
-  - title: "POC-2: File Loading Test"
-    details: 🧪 Demonstrates VitePress data loader integration for build-time file loading with hot reload support
-    link: /poc-file-loading-test
-  - title: "POC-2: Validation Results"
-    details: ✅ Complete validation passed - file loading, hot reload <2s, error handling verified
-    link: /poc-file-loading-test-results
+    details: ✅ Monaco Editor successfully renders in VitePress with SSR compatibility and side-by-side diff view
+    link: /poc-monaco-diff-results
+  - title: "POC-2.1: Props-Based Content"
+    details: 🧪 Tests Vue 3 reactive props for dynamic content updates - oldContent, newContent, language switching
+    link: /poc-monaco-diff-props
+  - title: "POC-2.1: Validation Results"
+    details: ✅ Watch callbacks validated - content and language props update reactively without component remount
+    link: /poc-monaco-diff-props-results
+  - title: "POC-2.2: Theme Synchronization"
+    details: 🧪 Validates VitePress theme detection and Monaco theme sync using useData().isDark with watch callbacks
+    link: /poc-monaco-diff-theme
+  - title: "POC-2.2: Validation Results"
+    details: ✅ Theme synchronization working - Monaco updates instantly when VitePress theme toggles light/dark
+    link: /poc-monaco-diff-theme-results
 ---
 
