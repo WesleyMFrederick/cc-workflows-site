@@ -141,8 +141,6 @@ The component SHALL follow project architecture standards for code quality and t
 - NFR-6.3: The component SHALL implement error handling with user-friendly messages following established patterns. ^NFR6-3
 - NFR-6.4: The component SHALL include unit tests for core functionality including mounting, prop handling, and theme switching. ^NFR6-4
 
-_Architecture Alignment:_ [Code Organization](<../../Architecture.md#Code Organization>), [Coding Standards](<../../Architecture.md#Coding Standards and Conventions>)
-
 #### NFR-7: Integration ^NFR7
 
 The component SHALL integrate seamlessly with existing VitePress site infrastructure.
@@ -150,8 +148,6 @@ The component SHALL integrate seamlessly with existing VitePress site infrastruc
 - NFR-7.1: The component SHALL replace the existing SystemPromptDiff component. ^NFR7-1
 - NFR-7.2: The component SHALL work within VitePress markdown files without custom build config. ^NFR7-2
 - NFR-7.3: The component SHALL not conflict with VitePress default theme styles. ^NFR7-3
-
-_Architecture Alignment:_ [Development Workflow](<../../Architecture.md#Development Workflow>)
 
 ---
 

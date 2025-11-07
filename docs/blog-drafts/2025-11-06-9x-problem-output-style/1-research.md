@@ -19,22 +19,24 @@
 
 ## Timeline of Events
 
-**October 31, 2025 (v2.0.30)**
-- Anthropic deprecated `/output-style` command
+**October 28, 2025 (v2.0.30)**
+- Anthropic announced deprecation of `/output-style` command in release notes
 - Deprecation message: "Review options in /output-style and use CLAUDE.md or plugins instead"
 - Proposed alternatives: `--system-prompt-file`, `--system-prompt`, `--append-system-prompt`, SessionStart hooks
+- Community feedback began immediately (GitHub issues filed starting day 1)
 
-**November 5, 2025**
-- Planned date for automatic conversion of user-level output styles to plugins
-- Peak of community backlash
+**October 28 - November 3, 2025**
+- Ongoing community backlash and technical discussion
 - GitHub Issue #10671 received 64 upvotes and 26 comments
+- GitHub Issue #10721 with detailed technical analysis
 - Multiple duplicate issues filed
 
-**Shortly After (v2.0.32)**
+**November 3, 2025 (v2.0.32)**
 - Anthropic reversed decision: "Un-deprecate output styles based on community feedback"
 - Feature fully restored to core product
+- Planned forced migration (originally scheduled for November 5) never happened
 
-**Total Duration**: Less than 7 days from deprecation to complete reversal
+**Total Duration**: 7 days from deprecation announcement to complete reversal (Oct 28 → Nov 3)
 
 ---
 

@@ -57,8 +57,8 @@ import {
   setTransformForFile,
   setTransformForTemplateContent,
   versions
-} from "./chunk-AGQJGIUD.js";
-import "./chunk-ZKAWKZG5.js";
+} from "./chunk-GRZ36NOM.js";
+import "./chunk-5WRI5ZAA.js";
 
 // node_modules/diff/libesm/diff/base.js
 var Diff = class {

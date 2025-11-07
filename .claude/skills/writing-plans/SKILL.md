@@ -23,9 +23,12 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 - "Run the tests and make sure they pass" - step
 - "Commit" - step
 
-## Present Tasks To User
+<critical-instruction>
+## CRITICAL: Present Tasks To User
 1. Present the list of tasks to user, along with a 1 sentence description of the task
 2. Use the `AskUserTool` to your partner if they approve the tasks
+3. I will be disappointed if you start writing an implement plan before presenting me a list of tasks
+</critical-instruction>
 
 ## Plan Document Header
 
