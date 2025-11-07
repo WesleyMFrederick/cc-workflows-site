@@ -47,4 +47,28 @@ test.describe('POC-2.2: Theme Synchronization', () => {
 
     // Visual verification: screenshots should show different background colors
   })
+
+  test('handles multiple theme toggles without issues', async ({ page }) => {
+    const themeToggle = page.locator('button.VPSwitch')
+    const errors: string[] = []
+
+    // Listen for console errors
+    page.on('console', msg => {
+      if (msg.type() === 'error') {
+        errors.push(msg.text())
+      }
+    })
+
+    // Toggle theme 4 times
+    for (let i = 0; i < 4; i++) {
+      await themeToggle.click()
+      await page.waitForTimeout(300)
+    }
+
+    // Wait a bit more
+    await page.waitForTimeout(500)
+
+    // Verify no console errors
+    expect(errors).toHaveLength(0)
+  })
 })
