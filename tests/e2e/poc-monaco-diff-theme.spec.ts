@@ -24,4 +24,27 @@ test.describe('POC-2.2: Theme Synchronization', () => {
       fullPage: true
     })
   })
+
+  test('updates theme when VitePress theme toggles', async ({ page }) => {
+    // Capture initial theme
+    await page.screenshot({
+      path: 'test-results/poc2.2-before-toggle.png',
+      fullPage: true
+    })
+
+    // Find and click VitePress theme toggle button
+    const themeToggle = page.locator('button.VPSwitch')
+    await themeToggle.click()
+
+    // Wait for theme transition
+    await page.waitForTimeout(500)
+
+    // Capture updated theme
+    await page.screenshot({
+      path: 'test-results/poc2.2-after-toggle.png',
+      fullPage: true
+    })
+
+    // Visual verification: screenshots should show different background colors
+  })
 })
