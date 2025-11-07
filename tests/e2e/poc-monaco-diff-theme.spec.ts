@@ -32,8 +32,8 @@ test.describe('POC-2.2: Theme Synchronization', () => {
       fullPage: true
     })
 
-    // Find and click VitePress theme toggle button
-    const themeToggle = page.locator('button.VPSwitch')
+    // Find and click VitePress theme toggle button (use first to avoid strict mode violation)
+    const themeToggle = page.locator('button.VPSwitch').first()
     await themeToggle.click()
 
     // Wait for theme transition
@@ -49,7 +49,7 @@ test.describe('POC-2.2: Theme Synchronization', () => {
   })
 
   test('handles multiple theme toggles without issues', async ({ page }) => {
-    const themeToggle = page.locator('button.VPSwitch')
+    const themeToggle = page.locator('button.VPSwitch').first()
     const errors: string[] = []
 
     // Listen for console errors
