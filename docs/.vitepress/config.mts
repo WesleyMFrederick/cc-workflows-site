@@ -4,6 +4,7 @@ export default defineConfig({
   title: 'Claude Code Workflows',
   description: 'Documentation site for Claude Code workflows and AI-assisted development discussions',
   ignoreDeadLinks: true,
+  srcExclude: ['**/assets/**'], // Exclude from page generation but allow raw imports
 
   vite: {
     ssr: {
@@ -23,6 +24,7 @@ export default defineConfig({
       {
         text: 'Monaco Editor POCs',
         items: [
+          { text: 'Implementation Reference', link: '/monaco-diff-reference' },
           {
             text: 'POC-1: Build & Render',
             collapsed: false,
@@ -45,6 +47,22 @@ export default defineConfig({
             items: [
               { text: 'Test Page', link: '/poc-monaco-diff-theme' },
               { text: 'Results', link: '/poc-monaco-diff-theme-results' }
+            ]
+          },
+          {
+            text: 'POC-3: File-Based Content Loading',
+            collapsed: false,
+            items: [
+              { text: 'Test Page', link: '/poc-monaco-diff-file' },
+              { text: 'Results', link: '/poc-monaco-diff-file-results' }
+            ]
+          },
+          {
+            text: 'POC-4: Comprehensive Component',
+            collapsed: false,
+            items: [
+              { text: 'Test Page', link: '/poc-monaco-diff-comprehensive' },
+              { text: 'Results', link: '/poc-monaco-diff-comprehensive-results' }
             ]
           }
         ]
