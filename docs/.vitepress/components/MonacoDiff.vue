@@ -137,7 +137,8 @@ onMounted(() => {
     renderOverviewRuler: true,
     automaticLayout: true,
     contextmenu: false, // Disables right-click context menu
-    theme: monacoTheme.value
+    theme: monacoTheme.value,
+     wordWrap: 'on' // Enable word wrap
   })
 
   // Create models with loaded file content

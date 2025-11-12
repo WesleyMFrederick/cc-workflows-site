@@ -26,38 +26,6 @@ export default defineConfig({
         items: [
           { text: 'Implementation Reference', link: '/monaco-diff-reference' },
           {
-            text: 'POC-1: Build & Render',
-            collapsed: false,
-            items: [
-              { text: 'Test Page', link: '/poc-monaco-diff' },
-              { text: 'Results', link: '/poc-monaco-diff-results' }
-            ]
-          },
-          {
-            text: 'POC-2.1: Props-Based Content',
-            collapsed: false,
-            items: [
-              { text: 'Test Page', link: '/poc-monaco-diff-props' },
-              { text: 'Results', link: '/poc-monaco-diff-props-results' }
-            ]
-          },
-          {
-            text: 'POC-2.2: Theme Synchronization',
-            collapsed: false,
-            items: [
-              { text: 'Test Page', link: '/poc-monaco-diff-theme' },
-              { text: 'Results', link: '/poc-monaco-diff-theme-results' }
-            ]
-          },
-          {
-            text: 'POC-3: File-Based Content Loading',
-            collapsed: false,
-            items: [
-              { text: 'Test Page', link: '/poc-monaco-diff-file' },
-              { text: 'Results', link: '/poc-monaco-diff-file-results' }
-            ]
-          },
-          {
             text: 'POC-4: Comprehensive Component',
             collapsed: false,
             items: [

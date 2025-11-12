@@ -152,6 +152,48 @@ Way of thinking about problems (flatten-with-flags, test-invariants)
 ### Reference
 API docs, syntax guides, tool documentation (office docs)
 
+### Modular Pattern: MECHANISM vs POLICY
+
+When creating skills that build on each other, use this separation pattern:
+
+**MECHANISM Skills** = "How to do X"
+- Flexible, reusable building blocks
+- No opinions on when/why to use
+- Focus: technical execution
+- Example: `using-git-worktrees` (creates worktrees, installs deps, reports ready)
+
+**POLICY Skills** = "When/why to do X"
+- Strict orchestrators enforcing standards
+- Delegates to MECHANISM skills for execution
+- Focus: validation, enforcement, workflow
+- Example: `setting-up-implementation-worktree` (verifies clean state, delegates creation, enforces tests)
+
+**Benefits:**
+- Reusability: MECHANISM skills usable in multiple contexts
+- Clear separation: Policy decisions separate from technical execution
+- Testability: Each skill has single responsibility
+
+**When to use:**
+- Multiple workflows need same technical operation with different policies
+- Strict enforcement needed in some contexts but not others
+- Skills have significant overlap that could be modularized
+
+**Example from worktree skills:**
+
+```text
+setting-up-implementation-worktree (POLICY)
+  ├─ Enforces: clean git state, passing tests
+  ├─ Cleans up: existing worktrees
+  ├─ Delegates to: using-git-worktrees (MECHANISM)
+  └─ Validates: dependencies, tests, build after creation
+
+using-git-worktrees (MECHANISM)
+  ├─ Selects: directory location
+  ├─ Creates: worktree with auto-naming
+  ├─ Installs: project dependencies
+  └─ Reports: ready (no test enforcement)
+```
+
 ## Directory Structure
 
 **User scope** (`~/.claude/skills/`):

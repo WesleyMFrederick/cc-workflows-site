@@ -1,17 +1,11 @@
-/* Custom styles for the site */
-
-/* Expand layout for wide displays */
+/* Put this in .vitepress/theme/custom.css */
 :root {
-  --vp-layout-max-width: 1920px;
+  /* Remove the layout cap and reuse the widths from 960px layout */
+  --vp-layout-max-width: 100vw;
+  --vp-sidebar-width: 280px; /* adjust to match your 960px nav */
+  --vp-aside-width: 260px;   /* adjust to match your 960px outline */
 }
 
-/* Increase content width when aside is disabled */
-@media (min-width: 1440px) {
-  .VPDoc:not(.has-aside) .content-container {
-    max-width: 1400px;
-  }
-
-  .VPDoc:not(.has-aside) .container {
-    max-width: 1600px;
-  }
+.VPDoc.has-aside .content-container {
+  max-width: 100% !important;    /* override the 688px rule */
 }

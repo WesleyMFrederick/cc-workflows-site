@@ -48,7 +48,10 @@ onMounted(() => {
     renderSideBySide: true,
     enableSplitViewResizing: true,
     renderOverviewRuler: true,
-    automaticLayout: true
+    automaticLayout: true,
+    contextmenu: false,
+    theme: monacoTheme.value,
+    wordWrap: 'on'
   })
 
   // Set initial models
@@ -133,8 +136,9 @@ monaco.editor.createDiffEditor(container, {
   enableSplitViewResizing: true,   // User can resize panes
   renderOverviewRuler: true,       // Show minimap
   automaticLayout: true,           // Auto-resize on container changes
-  theme: 'vs-dark',                // or 'vs' for light
-  contextmenu: false // Disables right-click context menu
+  contextmenu: false,              // Disables right-click context menu
+  theme: monacoTheme.value,        // Dynamic theme from VitePress (vs-dark / vs)
+  wordWrap: 'on'                   // Enable word wrapping for long lines
 })
 ```
 
@@ -201,16 +205,20 @@ watch(() => props.language, (newLang) => {
 
 ---
 
-## 4. Data Loading Pattern (POC-3)
+## 4. Data Loading Pattern (POC-3, POC-5)
 
 ### Problem: srcExclude Blocks import.meta.glob
 VitePress `srcExclude` prevents files from being processed by Vite, breaking `import.meta.glob` imports.
 
-### Solution: VitePress Content Loader
+### Solution: Node.js fs-based Data Loader
+
+**⚠️ Critical:** VitePress `createContentLoader` **only supports Markdown files**. For non-markdown files (TypeScript, JavaScript, Vue, etc.), you MUST use Node.js `fs` module.
+
 **File:** `docs/.vitepress/loaders/assets.data.ts`
 
 ```typescript
-import { createContentLoader } from 'vitepress'
+import fs from 'node:fs'
+import path from 'node:path'
 
 export interface AssetFile {
   path: string
@@ -220,15 +228,39 @@ export interface AssetFile {
 declare const data: AssetFile[]
 export { data }
 
-export default createContentLoader('assets/*.md', {
-  includeSrc: true,
-  transform(rawData): AssetFile[] {
-    return rawData.map(({ url, src }) => ({
-      path: url.replace('/assets/', '').replace('.html', '.md'),
-      content: src || ''
-    }))
+// VitePress createContentLoader only supports Markdown files
+// For non-markdown files (TypeScript, JavaScript, Vue, etc.), use Node.js fs
+// This approach is validated by POC-5 (commit ebfc237)
+export default {
+  load() {
+    const assetsDir = path.resolve(__dirname, '../../assets')
+    const files: AssetFile[] = []
+
+    // Supported extensions for multi-language syntax highlighting
+    const supportedExtensions = ['.md', '.ts', '.js', '.vue', '.html', '.css', '.json', '.yaml']
+
+    // Read all files from assets directory
+    const dirEntries = fs.readdirSync(assetsDir, { withFileTypes: true })
+
+    for (const entry of dirEntries) {
+      if (entry.isFile()) {
+        const ext = path.extname(entry.name)
+
+        // Only include files with supported extensions
+        if (supportedExtensions.includes(ext)) {
+          const filePath = path.join(assetsDir, entry.name)
+          const content = fs.readFileSync(filePath, 'utf-8')
+          files.push({
+            path: entry.name,
+            content
+          })
+        }
+      }
+    }
+
+    return files
   }
-})
+}
 ```
 
 **Component Usage:**
@@ -292,17 +324,40 @@ const contentOrError = computed(() => {
 
 ## 5. Common Pitfalls
 
-### Pitfall 1: srcExclude + import.meta.glob Fails
+### Pitfall 1: createContentLoader Only Supports Markdown
 
 ```typescript
-// ❌ FAILS - files in srcExclude not processed by Vite
+// ❌ FAILS - createContentLoader only loads .md files
+import { createContentLoader } from 'vitepress'
+export default createContentLoader('assets/*.{md,ts,js}', { includeSrc: true })
+// Result: Only .md files load, .ts and .js are ignored
+
+// ❌ ALSO FAILS - files in srcExclude not processed by Vite
 const files = import.meta.glob('/docs/assets/*.md', { eager: true, query: '?raw' })
 // Result: empty object {}
 
-// ✅ WORKS - Use VitePress content loader
-import { createContentLoader } from 'vitepress'
-export default createContentLoader('assets/*.md', { includeSrc: true })
+// ✅ WORKS - Use Node.js fs for non-markdown files
+import fs from 'node:fs'
+import path from 'node:path'
+
+export default {
+  load() {
+    const assetsDir = path.resolve(__dirname, '../../assets')
+    const files = []
+    const dirEntries = fs.readdirSync(assetsDir, { withFileTypes: true })
+
+    for (const entry of dirEntries) {
+      if (entry.isFile()) {
+        const content = fs.readFileSync(path.join(assetsDir, entry.name), 'utf-8')
+        files.push({ path: entry.name, content })
+      }
+    }
+    return files
+  }
+}
 ```
+
+**Critical Discovery (POC-6):** VitePress `createContentLoader` is **markdown-only** by design. Attempting to load TypeScript, JavaScript, Vue, or other file types will silently fail. Always use the fs-based approach shown above for multi-language support.
 
 ### Pitfall 2: SSR Errors with Monaco
 

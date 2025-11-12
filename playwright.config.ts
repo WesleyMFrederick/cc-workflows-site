@@ -12,7 +12,7 @@ export default defineConfig({
   reporter: [['html'], ['list']],
 
   use: {
-    baseURL: 'http://localhost:4173',
+    baseURL: 'http://localhost:5173',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
@@ -36,6 +36,11 @@ export default defineConfig({
     },
   ],
 
-  // Don't start the dev server automatically - we'll do it manually
-  // to have more control over the process
+  // Auto-start dev server for tests
+  webServer: {
+    command: 'npm run docs:dev',
+    url: 'http://localhost:5173',
+    reuseExistingServer: !process.env.CI,
+    timeout: 120000,
+  },
 });
