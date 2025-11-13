@@ -20,18 +20,27 @@ This reference documents the production-ready `MonacoDiff.vue` component that co
 
 ## 1. Architecture Patterns
 
-### Component Lifecycle Pattern
+### Component Lifecycle Pattern (SSR-Safe)
 
 ```typescript
-// 1. Import workers with Vite ?worker syntax
-import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
-import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
-import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
-import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
-import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+// 1. Dynamically import workers in onMounted to avoid SSR issues
+onMounted(async () => {
+  // Import workers dynamically - only executes in browser
+  const [
+    { default: editorWorker },
+    { default: jsonWorker },
+    { default: cssWorker },
+    { default: htmlWorker },
+    { default: tsWorker }
+  ] = await Promise.all([
+    import('monaco-editor/esm/vs/editor/editor.worker?worker'),
+    import('monaco-editor/esm/vs/language/json/json.worker?worker'),
+    import('monaco-editor/esm/vs/language/css/css.worker?worker'),
+    import('monaco-editor/esm/vs/language/html/html.worker?worker'),
+    import('monaco-editor/esm/vs/language/typescript/ts.worker?worker')
+  ])
 
-// 2. Configure workers in onMounted (client-side only)
-onMounted(() => {
+  // 2. Configure workers after dynamic import
   self.MonacoEnvironment = {
     getWorker(_: any, label: string) {
       if (label === 'json') return new jsonWorker()
@@ -361,6 +370,11 @@ export default {
 
 ### Pitfall 2: SSR Errors with Monaco
 
+**Two levels of SSR protection required:**
+
+1. **Component level** - Use `defineAsyncComponent` + `<ClientOnly>`
+2. **Worker level** - Use dynamic imports in `onMounted()`
+
 ```vue
 <!-- ❌ FAILS - Monaco imported during SSR -->
 <script setup>
@@ -377,6 +391,18 @@ const MonacoDiff = inBrowser
   : () => null
 </script>
 <ClientOnly><MonacoDiff /></ClientOnly>
+```
+
+**Inside component:**
+```typescript
+// ❌ FAILS - Top-level worker imports execute during SSR
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+
+// ✅ WORKS - Dynamic imports in onMounted (browser-only)
+onMounted(async () => {
+  const { default: editorWorker } = await import('monaco-editor/esm/vs/editor/editor.worker?worker')
+  // ... configure and use worker
+})
 ```
 
 ### Pitfall 3: Monaco DOM Structure Assumptions
@@ -442,19 +468,30 @@ watch(monacoTheme, (newTheme) => {
 
 ---
 
-## 7. Worker Setup (2025 Best Practice)
+## 7. Worker Setup (2025 Best Practice - SSR-Safe)
 
-### Modern Vite Native Worker Pattern
+### Modern Vite Native Worker Pattern with Dynamic Imports
+
+**⚠️ Critical:** Workers must be dynamically imported inside `onMounted()` to avoid SSR "window is not defined" errors.
 
 ```typescript
-// Import workers with ?worker suffix
-import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
-import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
-import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
-import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
-import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+// ✅ SSR-SAFE: Dynamic imports in onMounted (browser-only)
+onMounted(async () => {
+  // Import workers dynamically to avoid SSR issues
+  const [
+    { default: editorWorker },
+    { default: jsonWorker },
+    { default: cssWorker },
+    { default: htmlWorker },
+    { default: tsWorker }
+  ] = await Promise.all([
+    import('monaco-editor/esm/vs/editor/editor.worker?worker'),
+    import('monaco-editor/esm/vs/language/json/json.worker?worker'),
+    import('monaco-editor/esm/vs/language/css/css.worker?worker'),
+    import('monaco-editor/esm/vs/language/html/html.worker?worker'),
+    import('monaco-editor/esm/vs/language/typescript/ts.worker?worker')
+  ])
 
-onMounted(() => {
   self.MonacoEnvironment = {
     getWorker(_: any, label: string) {
       if (label === 'json') return new jsonWorker()
@@ -482,13 +519,25 @@ dist/assets/
 
 **Total:** ~8.1 MB (expected for full Monaco with TypeScript support)
 
+### Why Dynamic Imports Are Required
+
+**Problem:** Top-level worker imports using Vite's `?worker` syntax trigger browser-specific code that references the `window` object, causing SSR build failures.
+
+**Solution:** Dynamic imports with `await import()` inside `onMounted()`:
+1. **Deferred execution** - Code only runs after component mounts (browser-only)
+2. **No SSR execution** - Build process doesn't evaluate dynamic imports
+3. **Maintains bundling** - Vite still bundles workers for production
+4. **Type-safe** - Full TypeScript support with destructured imports
+
 ### Why This Pattern Works
 1. **No plugin dependency** - Vite handles `?worker` imports natively
 2. **VitePress compatible** - No conflicts with VitePress build process
-3. **SSR-safe** - Worker setup in `onMounted` (client-only)
+3. **SSR-safe** - Dynamic imports + worker setup in `onMounted` (client-only)
 4. **Production-ready** - Workers automatically bundled and hashed
 
-**Reference:** [VitePress Issue #2832](https://github.com/vuejs/vitepress/issues/2832)
+**References:**
+- [VitePress Issue #2832](https://github.com/vuejs/vitepress/issues/2832)
+- [GitHub Issue #10](https://github.com/WesleyMFrederick/cc-workflows-site/issues/10) - SSR Build Failure Fix
 
 ---
 
