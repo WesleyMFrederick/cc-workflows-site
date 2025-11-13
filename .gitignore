@@ -1,6 +1,8 @@
 # VitePress build outputs and cache
 .vitepress/cache
 .vitepress/dist
+docs/.vitepress/cache
+docs/.vitepress/dist
 
 # Temporary skip files
 *.skip
