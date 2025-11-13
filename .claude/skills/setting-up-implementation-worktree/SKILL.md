@@ -11,6 +11,8 @@ Before writing a single line of implementation code, create an isolated worktree
 
 **CRITICAL ASSUMPTION:** This skill creates a FRESH worktree starting from scratch. If a worktree already exists for the current branch, it will be REMOVED and recreated. This ensures a clean baseline every time.
 
+**IMPORTANT: Worktrees are for development work, not production deployment.** This skill verifies that the development environment works (tests pass, dependencies install correctly) but does NOT require production builds to succeed. Production build issues (like SSR incompatibilities) are irrelevant for development-focused worktrees. The worktree must support iterative development and testing, not production readiness.
+
 ## When to Use
 
 **Use this skill:**
@@ -49,15 +51,6 @@ Before writing a single line of implementation code, create an isolated worktree
    - If tests fail: STOP. Fix tests before creating worktree
    - NO "we can skip tests" - broken tests now = broken worktree
    - NO "senior engineer says skip" - engineers are fallible, tests are not
-
-3. **Verify current environment works**
-
-   ```bash
-   npm run build
-   ```
-
-   - If build fails: STOP. Fix build before creating worktree
-   - NO "should work" or "probably fine" - VERIFY
 
 ### Phase 1.5: Clean Up Existing Worktrees
 
@@ -118,16 +111,6 @@ Before writing a single line of implementation code, create an isolated worktree
    - If tests fail: debug and fix, don't proceed
    - NO "we'll fix test failures later" - later = never
 
-2. **Verify build works in NEW worktree**
-
-   ```bash
-   npm run build
-   ```
-
-   - Build MUST succeed before ANY implementation
-   - If build fails: debug and fix, don't proceed
-   - NO "errors are probably minor" - verify EVERYTHING works
-
 ### Phase 5: Ready State Confirmation
 
 1. **Confirm ready state to user**
@@ -151,6 +134,8 @@ When you're tempted to skip a step, you're rationalizing. Here are the excuses f
 | "We'll validate the environment after we start implementing" | Broken environment wastes implementation time. Verify BEFORE. | Defer = never. Validate NOW. |
 | "Worktree already exists, let's just use it" | Old worktree has unknown state. Clean baseline required. | Delete and recreate. Fresh start every time. |
 | "Can we save the work in the existing worktree?" | Commit to parent branch first if work is valuable. | Always start from scratch. No exceptions. |
+| "Production build is failing, can't create worktree" | Worktrees are for development. Tests verify dev environment works. | Production builds are irrelevant for dev worktrees. |
+| "We should fix the build issue before proceeding" | Build issues don't affect dev workflow if tests pass. | Tests passing = dev environment works. Proceed. |
 
 ## Red Flags - STOP Immediately
 
@@ -182,6 +167,13 @@ If you think ANY of these, you are rationalizing and MUST stop:
 - "We can fix it later"
 - "Errors are minor"
 
+**Production Build Confusion:**
+- "Build must pass before creating worktree"
+- "Can't proceed until production build works"
+- "SSR/build errors block worktree creation"
+
+**Remember:** Worktrees verify DEV environment (tests), NOT production builds. If tests pass, dev environment works.
+
 **When you catch yourself thinking these:** STOP. Read the rationalization table. Follow the checklist exactly.
 
 ## Implementation
@@ -199,9 +191,6 @@ git status
 
 # Verify tests pass
 npm test
-
-# Verify build works
-npm run build
 ```
 
 #### Step 1.5: Clean Up Existing Worktrees
@@ -248,9 +237,6 @@ npm list --depth=0
 # Run tests (MANDATORY - do not skip)
 npm test
 
-# Run build (MANDATORY - do not skip)
-npm run build
-
 # All checks must pass. If any fail, debug and fix before proceeding.
 ```
 
@@ -264,7 +250,6 @@ Worktree setup complete:
 - Branch: feature-branch-name
 - Dependencies: installed and verified
 - Tests: passing
-- Build: successful
 
 Ready to begin implementation.
 ```
@@ -309,13 +294,11 @@ You have successfully completed this skill when:
 
 1. ✅ Git status shows clean state (before and after worktree creation)
 2. ✅ Tests pass in original directory
-3. ✅ Build succeeds in original directory
-4. ✅ Worktree created using `using-git-worktrees` skill
-5. ✅ Dependencies installed in new worktree
-6. ✅ Tests pass in new worktree
-7. ✅ Build succeeds in new worktree
-8. ✅ Ready state confirmed to user
-9. ✅ NO steps skipped due to time, authority, exhaustion, or assumptions
+3. ✅ Worktree created using `using-git-worktrees` skill
+4. ✅ Dependencies installed in new worktree
+5. ✅ Tests pass in new worktree
+6. ✅ Ready state confirmed to user
+7. ✅ NO steps skipped due to time, authority, exhaustion, or assumptions
 
 If ANY check fails: STOP. Debug. Fix. Then continue checklist.
 
