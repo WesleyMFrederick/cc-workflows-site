@@ -20,18 +20,42 @@ This reference documents the production-ready `MonacoDiff.vue` component that co
 
 ## 1. Architecture Patterns
 
-### Component Lifecycle Pattern
+### Component Lifecycle Pattern (SSR-Safe)
+
+**Critical:** Both Monaco Editor AND workers must be dynamically imported to avoid SSR failures.
 
 ```typescript
-// 1. Import workers with Vite ?worker syntax
-import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
-import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
-import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
-import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
-import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+// 1. Use type-only import for TypeScript types (does not execute at runtime)
+import type * as Monaco from 'monaco-editor'
 
-// 2. Configure workers in onMounted (client-side only)
-onMounted(() => {
+// 2. Create nullable monaco reference for use in lifecycle hooks
+let monaco: typeof Monaco | null = null
+
+// 3. Dynamically import Monaco + workers in onMounted (browser-only)
+onMounted(async () => {
+  if (!container.value) return
+
+  // Import Monaco Editor and all workers dynamically
+  const [
+    monacoModule,  // Monaco Editor library itself
+    { default: editorWorker },
+    { default: jsonWorker },
+    { default: cssWorker },
+    { default: htmlWorker },
+    { default: tsWorker }
+  ] = await Promise.all([
+    import('monaco-editor'),  // ⚠️ CRITICAL: Monaco itself must be dynamic
+    import('monaco-editor/esm/vs/editor/editor.worker?worker'),
+    import('monaco-editor/esm/vs/language/json/json.worker?worker'),
+    import('monaco-editor/esm/vs/language/css/css.worker?worker'),
+    import('monaco-editor/esm/vs/language/html/html.worker?worker'),
+    import('monaco-editor/esm/vs/language/typescript/ts.worker?worker')
+  ])
+
+  // Store monaco reference for use in watch blocks
+  monaco = monacoModule
+
+  // 4. Configure workers after dynamic import
   self.MonacoEnvironment = {
     getWorker(_: any, label: string) {
       if (label === 'json') return new jsonWorker()
@@ -42,6 +66,7 @@ onMounted(() => {
     }
   }
 
+  // 5. Create diff editor using dynamically imported monaco
   diffEditor = monaco.editor.createDiffEditor(container.value, {
     readOnly: true,
     originalEditable: false,
@@ -54,21 +79,31 @@ onMounted(() => {
     wordWrap: 'on'
   })
 
-  // Set initial models
+  // 6. Set initial models
   const originalModel = monaco.editor.createModel(oldContent, language)
   const modifiedModel = monaco.editor.createModel(newContent, language)
   diffEditor.setModel({ original: originalModel, modified: modifiedModel })
 })
 
-// 3. Use watch() for reactive prop updates
+// 7. Use watch() for reactive prop updates (with null check)
 watch(() => props.oldContent, (newValue) => {
+  if (!diffEditor || !monaco) return  // ⚠️ Check monaco availability
   const model = diffEditor.getOriginalEditor().getModel()
   if (model && model.getValue() !== newValue) {
     model.setValue(newValue)  // Reuse model - no createModel
   }
 })
 
-// 4. Cleanup in onBeforeUnmount
+// 8. Watch language changes (with null check)
+watch(() => props.language, (newLang) => {
+  if (!diffEditor || !monaco) return  // ⚠️ Check monaco availability
+  const originalModel = diffEditor.getOriginalEditor().getModel()
+  const modifiedModel = diffEditor.getModifiedEditor().getModel()
+  if (originalModel) monaco.editor.setModelLanguage(originalModel, newLang)
+  if (modifiedModel) monaco.editor.setModelLanguage(modifiedModel, newLang)
+})
+
+// 9. Cleanup in onBeforeUnmount
 onBeforeUnmount(() => {
   diffEditor?.dispose()
 })
@@ -361,6 +396,11 @@ export default {
 
 ### Pitfall 2: SSR Errors with Monaco
 
+**Two levels of SSR protection required:**
+
+1. **Component level** - Use `defineAsyncComponent` + `<ClientOnly>`
+2. **Worker level** - Use dynamic imports in `onMounted()`
+
 ```vue
 <!-- ❌ FAILS - Monaco imported during SSR -->
 <script setup>
@@ -377,6 +417,41 @@ const MonacoDiff = inBrowser
   : () => null
 </script>
 <ClientOnly><MonacoDiff /></ClientOnly>
+```
+
+**Inside component - Complete SSR-safe pattern:**
+```typescript
+// ❌ FAILS - Top-level imports execute during SSR build
+import * as monaco from 'monaco-editor'
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+
+// ✅ WORKS - Type-only import + dynamic runtime imports
+import type * as Monaco from 'monaco-editor'
+
+let monaco: typeof Monaco | null = null
+
+onMounted(async () => {
+  // Dynamically import Monaco + workers (browser-only execution)
+  const [
+    monacoModule,
+    { default: editorWorker }
+    // ... other workers
+  ] = await Promise.all([
+    import('monaco-editor'),  // Monaco library itself
+    import('monaco-editor/esm/vs/editor/editor.worker?worker')
+    // ... other worker imports
+  ])
+
+  monaco = monacoModule  // Store for use in watch blocks
+
+  // Configure and use monaco...
+})
+
+// Watch blocks must check monaco availability
+watch(someProp, () => {
+  if (!monaco) return  // Guard against SSR or pre-mount execution
+  monaco.editor.doSomething()
+})
 ```
 
 ### Pitfall 3: Monaco DOM Structure Assumptions
@@ -442,19 +517,42 @@ watch(monacoTheme, (newTheme) => {
 
 ---
 
-## 7. Worker Setup (2025 Best Practice)
+## 7. Worker Setup (2025 Best Practice - SSR-Safe)
 
-### Modern Vite Native Worker Pattern
+### Complete Dynamic Import Pattern
+
+**⚠️ Critical:** BOTH Monaco Editor and workers must be dynamically imported to avoid SSR errors.
 
 ```typescript
-// Import workers with ?worker suffix
-import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
-import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
-import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
-import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
-import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+// Step 1: Type-only import (no runtime execution)
+import type * as Monaco from 'monaco-editor'
 
-onMounted(() => {
+// Step 2: Create nullable reference
+let monaco: typeof Monaco | null = null
+
+// Step 3: Dynamic imports in onMounted
+onMounted(async () => {
+  // Import Monaco Editor library + all language workers
+  const [
+    monacoModule,      // ⚠️ Monaco itself must be dynamic!
+    { default: editorWorker },
+    { default: jsonWorker },
+    { default: cssWorker },
+    { default: htmlWorker },
+    { default: tsWorker }
+  ] = await Promise.all([
+    import('monaco-editor'),  // Main library
+    import('monaco-editor/esm/vs/editor/editor.worker?worker'),
+    import('monaco-editor/esm/vs/language/json/json.worker?worker'),
+    import('monaco-editor/esm/vs/language/css/css.worker?worker'),
+    import('monaco-editor/esm/vs/language/html/html.worker?worker'),
+    import('monaco-editor/esm/vs/language/typescript/ts.worker?worker')
+  ])
+
+  // Store monaco reference for watch blocks
+  monaco = monacoModule
+
+  // Configure worker resolution
   self.MonacoEnvironment = {
     getWorker(_: any, label: string) {
       if (label === 'json') return new jsonWorker()
@@ -464,7 +562,9 @@ onMounted(() => {
       return new editorWorker()
     }
   }
-  // Create editor after worker config
+
+  // Now safe to use monaco.editor.* APIs
+  diffEditor = monaco.editor.createDiffEditor(container.value, { /* config */ })
 })
 ```
 
@@ -482,26 +582,145 @@ dist/assets/
 
 **Total:** ~8.1 MB (expected for full Monaco with TypeScript support)
 
+### Why Dynamic Imports Are Required
+
+**Root Cause:** Monaco Editor's module-level code and worker imports reference browser globals (`window`, `self`, `document`) that don't exist in Node.js SSR environments.
+
+**What Fails:**
+- `import * as monaco from 'monaco-editor'` - Module initialization code runs during SSR
+- `import worker from 'monaco-editor/...?worker'` - Worker imports trigger browser-specific code
+- Both cause "window is not defined" or "ReferenceError: self is not defined" during build
+
+**Solution Pattern:**
+```typescript
+// ✅ Use type-only import (erased at runtime, safe for SSR)
+import type * as Monaco from 'monaco-editor'
+
+// ✅ Dynamic imports in onMounted (browser-only execution)
+onMounted(async () => {
+  const [monacoModule, ...workers] = await Promise.all([
+    import('monaco-editor'),
+    // worker imports...
+  ])
+  monaco = monacoModule
+})
+```
+
+**Why This Works:**
+1. **Deferred execution** - Code only runs after component mounts in browser
+2. **No SSR evaluation** - Build process doesn't execute dynamic imports
+3. **Maintains bundling** - Vite still bundles Monaco and workers for production
+4. **Type-safe** - `import type` provides TypeScript types without runtime import
+5. **Null-safe** - Watch blocks check `if (!monaco)` before using APIs
+
 ### Why This Pattern Works
 1. **No plugin dependency** - Vite handles `?worker` imports natively
 2. **VitePress compatible** - No conflicts with VitePress build process
-3. **SSR-safe** - Worker setup in `onMounted` (client-only)
+3. **SSR-safe** - Dynamic imports + worker setup in `onMounted` (client-only)
 4. **Production-ready** - Workers automatically bundled and hashed
 
-**Reference:** [VitePress Issue #2832](https://github.com/vuejs/vitepress/issues/2832)
+**References:**
+- [VitePress Issue #2832](https://github.com/vuejs/vitepress/issues/2832)
+- [GitHub Issue #10](https://github.com/WesleyMFrederick/cc-workflows-site/issues/10) - SSR Build Failure Fix
 
 ---
 
 ## Quick Start Checklist
 
-1. **Install:** `npm install monaco-editor@0.54.0`
-2. **Configure:** Add `ssr.noExternal: ['monaco-editor']` to VitePress config
-3. **Create data loader:** `docs/.vitepress/loaders/assets.data.ts`
-4. **Create component:** With native worker imports pattern
-5. **Use SSR-safe loading:** `defineAsyncComponent` + `inBrowser` + `<ClientOnly>`
-6. **Add frontmatter:** `aside: false` for wide layout
-7. **Test viewport:** >= 1440px for side-by-side rendering
-8. **Add theme sync:** `useData().isDark` → `monaco.editor.setTheme()`
+### 1. Installation & Configuration
+- **Install:** `npm install monaco-editor@0.54.0`
+- **VitePress Config:** Add `ssr.noExternal: ['monaco-editor']` to `vite.ssr` in config.mts
+- **Exclude assets:** Add `srcExclude: ['**/assets/**']` to prevent asset files from being rendered as pages
+
+### 2. Component Implementation (SSR-Safe Pattern)
+
+```vue
+<script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import type * as Monaco from 'monaco-editor'  // ⚠️ Type-only import
+
+let monaco: typeof Monaco | null = null
+let diffEditor = null
+const container = ref(null)
+
+onMounted(async () => {
+  if (!container.value) return
+
+  // ⚠️ CRITICAL: Dynamic imports for Monaco + workers
+  const [monacoModule, { default: editorWorker }, ...otherWorkers] = await Promise.all([
+    import('monaco-editor'),  // Monaco itself must be dynamic
+    import('monaco-editor/esm/vs/editor/editor.worker?worker'),
+    // ... other worker imports
+  ])
+
+  monaco = monacoModule  // Store for watch blocks
+
+  self.MonacoEnvironment = {
+    getWorker(_: any, label: string) {
+      // Worker resolution logic
+      return new editorWorker()
+    }
+  }
+
+  diffEditor = monaco.editor.createDiffEditor(container.value, {
+    readOnly: true,
+    renderSideBySide: true,
+    automaticLayout: true,
+    theme: 'vs-dark'
+  })
+
+  // Set models...
+})
+
+onBeforeUnmount(() => {
+  diffEditor?.dispose()
+})
+</script>
+
+<template>
+  <div ref="container" style="height: 600px; border: 1px solid #ccc;" />
+</template>
+```
+
+### 3. Page Usage (SSR-Safe Loading)
+
+```vue
+<!-- In your markdown page -->
+<script setup>
+import { defineAsyncComponent } from 'vue'
+import { inBrowser } from 'vitepress'
+
+// ⚠️ CRITICAL: Wrap component in SSR guard
+const MonacoDiff = inBrowser
+  ? defineAsyncComponent(() => import('./.vitepress/components/MonacoDiff.vue'))
+  : () => null
+</script>
+
+<ClientOnly>
+  <MonacoDiff oldFile="before.md" newFile="after.md" language="markdown" />
+</ClientOnly>
+```
+
+### 4. Page Configuration
+```yaml
+---
+layout: doc
+aside: false  # Required for wide diff view
+---
+```
+
+### 5. Data Loader (for file-based content)
+- **Create:** `docs/.vitepress/loaders/assets.data.ts`
+- **Use Node.js fs:** VitePress `createContentLoader` only supports `.md` files
+- **Export interface:** Return array of `{ path: string, content: string }`
+
+### 6. Validation Checklist
+- ✓ Build succeeds: `npm run docs:build` completes without SSR errors
+- ✓ No "window is not defined" errors
+- ✓ Monaco renders correctly in browser
+- ✓ Theme sync works (if implemented)
+- ✓ Props update reactively (if using dynamic content)
+- ✓ Viewport >= 1440px for side-by-side view
 
 ---
 
@@ -510,3 +729,101 @@ dist/assets/
 - **Bundle size:** ~8 MB for full Monaco (optimize by excluding unused language workers)
 - **Browser support:** Chrome, Firefox, Safari, Edge (modern versions with Web Worker support)
 - **Performance:** Theme switches <100ms, no lag on rapid toggles, efficient prop updates
+
+---
+
+## Troubleshooting SSR Issues
+
+### Error: "window is not defined"
+
+**Symptom:** Build fails with `ReferenceError: window is not defined`
+
+**Diagnosis:**
+```bash
+npm run docs:build
+# Error output shows file path where window is referenced
+```
+
+**Common Causes & Fixes:**
+
+1. **Top-level Monaco import**
+   ```typescript
+   // ❌ Problem
+   import * as monaco from 'monaco-editor'
+
+   // ✅ Solution
+   import type * as Monaco from 'monaco-editor'
+   let monaco: typeof Monaco | null = null
+   onMounted(async () => {
+     monaco = await import('monaco-editor')
+   })
+   ```
+
+2. **Top-level worker imports**
+   ```typescript
+   // ❌ Problem
+   import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+
+   // ✅ Solution
+   onMounted(async () => {
+     const { default: editorWorker } = await import('monaco-editor/esm/vs/editor/editor.worker?worker')
+   })
+   ```
+
+3. **Component not wrapped in SSR guard**
+   ```vue
+   <!-- ❌ Problem -->
+   <script setup>
+   import MonacoDiff from './.vitepress/components/MonacoDiff.vue'
+   </script>
+   <MonacoDiff />
+
+   <!-- ✅ Solution -->
+   <script setup>
+   import { defineAsyncComponent } from 'vue'
+   import { inBrowser } from 'vitepress'
+
+   const MonacoDiff = inBrowser
+     ? defineAsyncComponent(() => import('./.vitepress/components/MonacoDiff.vue'))
+     : () => null
+   </script>
+   <ClientOnly><MonacoDiff /></ClientOnly>
+   ```
+
+4. **Missing monaco null check in watch blocks**
+   ```typescript
+   // ❌ Problem
+   watch(props.language, (newLang) => {
+     monaco.editor.setModelLanguage(model, newLang)  // Crashes if monaco is null
+   })
+
+   // ✅ Solution
+   watch(props.language, (newLang) => {
+     if (!monaco) return  // Guard against pre-mount execution
+     monaco.editor.setModelLanguage(model, newLang)
+   })
+   ```
+
+### Verification After Fix
+
+```bash
+# Clean build artifacts
+rm -rf docs/.vitepress/dist docs/.vitepress/cache
+
+# Rebuild (should complete without errors)
+npm run docs:build
+
+# Expected output:
+# ✓ building client + server bundles...
+# ✓ rendering pages...
+
+# Preview to verify Monaco works in browser
+npm run docs:preview
+```
+
+### Still Having Issues?
+
+1. Check VitePress config includes: `vite.ssr.noExternal: ['monaco-editor']`
+2. Verify all `monaco.*` API calls are inside `onMounted()` or guarded with `if (!monaco)`
+3. Ensure TypeScript understands `import type` (requires TypeScript 3.8+)
+4. Review error stack trace for exact line causing SSR failure

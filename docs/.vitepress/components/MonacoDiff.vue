@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
-import * as monaco from 'monaco-editor'
+import type * as Monaco from 'monaco-editor'
 import { data as assetFiles } from '../loaders/assets.data'
 import { useData } from 'vitepress'  // NEW: VitePress theme detection
 
-// Vite native worker imports - bundles workers properly for production
-import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
-import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
-import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
-import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
-import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+// Monaco will be dynamically imported in onMounted to avoid SSR issues
+let monaco: typeof Monaco | null = null
 
 // Load markdown files using VitePress content loader
 // This works with srcExclude by using VitePress's data loading system
@@ -103,11 +99,31 @@ const contentOrError = computed(() => {
 const diffContainer = ref(null)
 let diffEditor = null
 
-onMounted(() => {
+onMounted(async () => {
   if (!diffContainer.value || contentOrError.value.error) {
     console.log('[MonacoDiffFile] Skipping initialization:', contentOrError.value.error)
     return
   }
+
+  // Dynamically import Monaco and workers to avoid SSR issues
+  const [
+    monacoModule,
+    { default: editorWorker },
+    { default: jsonWorker },
+    { default: cssWorker },
+    { default: htmlWorker },
+    { default: tsWorker }
+  ] = await Promise.all([
+    import('monaco-editor'),
+    import('monaco-editor/esm/vs/editor/editor.worker?worker'),
+    import('monaco-editor/esm/vs/language/json/json.worker?worker'),
+    import('monaco-editor/esm/vs/language/css/css.worker?worker'),
+    import('monaco-editor/esm/vs/language/html/html.worker?worker'),
+    import('monaco-editor/esm/vs/language/typescript/ts.worker?worker')
+  ])
+
+  // Store monaco reference for use in watch blocks
+  monaco = monacoModule
 
   // Configure Monaco Environment for Vite native workers
   self.MonacoEnvironment = {
@@ -179,7 +195,7 @@ watch(() => [props.oldFile, props.newFile, props.oldContent, props.newContent], 
 
 // Watch language prop changes
 watch(() => props.language, (newLang) => {
-  if (!diffEditor) return
+  if (!diffEditor || !monaco) return
   const originalModel = diffEditor.getOriginalEditor().getModel()
   const modifiedModel = diffEditor.getModifiedEditor().getModel()
   if (originalModel) monaco.editor.setModelLanguage(originalModel, newLang)
@@ -189,7 +205,7 @@ watch(() => props.language, (newLang) => {
 
 // Watch VitePress theme changes and sync to Monaco
 watch(monacoTheme, (newTheme) => {
-  if (!diffEditor) return
+  if (!diffEditor || !monaco) return
   console.log('[MonacoDiff] Theme switching to:', newTheme)
   monaco.editor.setTheme(newTheme)
   console.log('[MonacoDiff] Theme updated successfully')
